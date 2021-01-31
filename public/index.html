@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple registration form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="main-block">
+      <h1>Registration</h1>
+      <form id="register-form">
+        <hr>
+        <label id="icon" for="fstname"><i class="fas fa-envelope"></i></label>
+        <input type="text" name="name" id="fstname" placeholder="FirstName" required/>
+        <label id="icon" for="usrname"><i class="fas fa-user"></i></label>
+        <input type="text" name="name" id="usrname" placeholder="UserName" required/>
+        <label id="icon" for="age"><i class="fas fa-user"></i></label>
+        <input type="number" name="name" id="age" placeholder="Age" min="12" max="60" required />
+        <label id="icon" for="pswrd"><i class="fas fa-unlock-alt"></i></label>
+        <input type="password" name="name" id="pswrd" placeholder="Password" required/>
+        <hr>
+        <div class="gender">
+          <input type="radio" value="male" id="male" name="gender" checked/>
+          <label for="male" class="radio">Male</label>
+          <input type="radio" value="female" id="female" name="gender" />
+          <label for="female" class="radio">Female</label>
+        </div>
+        <hr>
+        <div class="btn-block">
+          <p>Already have an account? <a href="login-form.html">Sign In</a>.</p>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("register-form");
+      form.addEventListener("submit",(e)=>{
+        const {fstname ,usrname ,pswrd ,age ,gender} = e.target.elements
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({"username":usrname.value,"firstname":fstname.value,"password":pswrd.value,"age":age.value,"gender":gender.value});
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+        fetch("/api/users/register",requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+
+        e.preventDefault()
+      })
+      
+    </script>
+
+
+  </body>
+</html>

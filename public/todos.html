@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todos</title>
+</head>
+<body>
+    <div id="my-todos">
+
+    </div>
+
+    <script>
+        ////get the user todos
+        window.addEventListener("load", async()=>{
+            try {
+                var todosHeaders = new Headers();
+                todosHeaders.append("Authorization", localStorage.getItem("token"));
+        
+                var requestOptions = {
+                method: 'GET',
+                headers: todosHeaders,
+                redirect: 'follow'
+                };
+        
+                const userTodos = await fetch("/api/todos", requestOptions).then(response => response.json())
+                document.getElementById('my-todos').innerHTML = JSON.stringify(userTodos);
+            } catch (error) {
+                console.error(err); 
+            }
+        });
+
+    </script>
+</body>
+</html>
